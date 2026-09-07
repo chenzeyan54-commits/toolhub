@@ -232,18 +232,20 @@ async function runAgentLoop(userQuery: string) {
     { role: 'user', content: userQuery }
   ];
 
-  let aiResponse = await llm.generate(messages);
-  const action = await hub.processAgentResponse(aiResponse);
+  while (true) {
+    const aiResponse = await llm.generate(messages);
+    const action = await hub.processAgentResponse(aiResponse);
 
-  if (action.called) {
+    if (!action.called) {
+      console.log('Agent Response:', aiResponse);
+      break;
+    }
+
     messages.push({ role: 'assistant', content: aiResponse });
     messages.push({ 
       role: 'user', 
       content: `HUB_RESULT: ${JSON.stringify(action.result)}` 
     });
-
-    const finalResponse = await llm.generate(messages);
-    console.log('Agent Response:', finalResponse);
   }
 }
 ```
@@ -497,18 +499,20 @@ async function runAgentLoop(userQuery: string) {
     { role: 'user', content: userQuery }
   ];
 
-  let aiResponse = await llm.generate(messages);
-  const action = await hub.processAgentResponse(aiResponse);
+  while (true) {
+    const aiResponse = await llm.generate(messages);
+    const action = await hub.processAgentResponse(aiResponse);
 
-  if (action.called) {
+    if (!action.called) {
+      console.log('Ответ агента:', aiResponse);
+      break;
+    }
+
     messages.push({ role: 'assistant', content: aiResponse });
     messages.push({ 
       role: 'user', 
       content: `HUB_RESULT: ${JSON.stringify(action.result)}` 
     });
-
-    const finalResponse = await llm.generate(messages);
-    console.log('Ответ агента:', finalResponse);
   }
 }
 ```
@@ -754,18 +758,20 @@ async function runAgentLoop(userQuery: string) {
     { role: 'user', content: userQuery }
   ];
 
-  let aiResponse = await llm.generate(messages);
-  const action = await hub.processAgentResponse(aiResponse);
+  while (true) {
+    const aiResponse = await llm.generate(messages);
+    const action = await hub.processAgentResponse(aiResponse);
 
-  if (action.called) {
+    if (!action.called) {
+      console.log('智能体响应结果:', aiResponse);
+      break;
+    }
+
     messages.push({ role: 'assistant', content: aiResponse });
     messages.push({ 
       role: 'user', 
       content: `HUB_RESULT: ${JSON.stringify(action.result)}` 
     });
-
-    const finalResponse = await llm.generate(messages);
-    console.log('智能体响应结果:', finalResponse);
   }
 }
 ```
